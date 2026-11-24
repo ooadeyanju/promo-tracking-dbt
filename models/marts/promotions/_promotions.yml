@@ -1,0 +1,26 @@
+version: 2
+
+models:
+  - name: dim_promo_config
+    description: One row per promotion from the projections spreadsheet, with status and daily projections.
+    columns:
+      - name: promo_id
+        tests: [unique, not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Not Scheduled', 'Upcoming', 'Ongoing', 'Ended']
+
+  - name: fct_promotion_digital
+    description: Daily promotion results by date, store, promotion and redeemable ID.
+    columns:
+      - name: business_date
+        tests: [not_null]
+      - name: promo_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_promo_config')
+                field: promo_id

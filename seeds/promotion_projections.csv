@@ -1,0 +1,13 @@
+PromoID,MonthYear,Name,PromoType,Country,Baseline,TxnLow,TxnMedium,TxnHigh,GMLow,GMMed,GMHigh,Measure,StartDate,EndDate,RedeemableIDs
+101,2026,Free Treat Offer,,US,,,,,,,,,,,
+102,Jan2026,40% Off First App Order (New Member Deal),dollar_or_percent,US,,110,135,160,900,1100,1300,Campaign,1/5/2026,2/1/2026,"3101,3102"
+103,Feb2026,Feb - Crispy Wrap $5.99,dollar_or_percent,US,,50,65,80,380,500,620,PerWeek,2/2/2026,3/1/2026,"3110,3111,3112"
+104,Mar2026,BOGO $0.99 Sundae,buy_x_get_y,US,,70,95,120,580,770,950,PerWeek,3/2/2026,3/29/2026,"3120, 3121, 3122"
+105,Mar2026,BOGO $0.99 Sundae (Canada),buy_x_get_y,CA,,15,20,25,120,160,200,PerWeek,3/2/2026,3/29/2026,3123
+106,Apr2026,Apr - $6 Combo Deal,dollar_or_percent,US,15,1800,2150,2500,11000,13500,16000,Campaign,4/6/2026,5/3/2026,"3130,3131"
+107,2026,Catering,,US,,950,1200,1450,30000,38000,46000,PerYear,1/1/2026,12/31/2026,3140
+108,May2026,National Dessert Day,buy_x_get_y,US,,350,480,600,1800,2400,3000,Campaign,5/22/2026,5/24/2026,3150
+109,Jun2026,BOGO $0.99 Sundae,buy_x_get_y,US,,70,95,120,580,770,950,PerWeek,6/1/2026,6/28/2026,"3120,3121,3122"
+110,Jul2026,Jul - $6 Combo Deal,dollar_or_percent,US,,,,,,,,,7/6/2026,8/2/2026,
+111,Summer2026,Free Delivery Weekends,,US,2,45,60,75,230,310,390,PerWeek,6/5/2026,8/30/2026,"3160,3161"
+112,Aug2026,National Burger Day,buy_x_get_y,US,,300,400,500,1500,2000,2500,Campaign,8/14/2026,8/16/2026,3170

@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_promo_projections
+    description: One row per trackable promotion per redeemable ID, split from the projections spreadsheet.
+    columns:
+      - name: promo_id
+        tests: [not_null]
+      - name: redeemable_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_redeemables')
+                field: redeemable_id
+
+  - name: int_promo_stats
+    description: One row per promotion per check that used its redeemables within its dates and country.
+    columns:
+      - name: promo_id
+        tests: [not_null]
+      - name: check_key
+        tests: [not_null]

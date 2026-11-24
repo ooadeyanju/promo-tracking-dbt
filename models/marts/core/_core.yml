@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: One row per calendar day covering sales data and promotion dates.
+    columns:
+      - name: date_day
+        tests: [unique, not_null]
+
+  - name: dim_stores
+    description: One row per store, keyed on store_number.
+    columns:
+      - name: store_number
+        tests: [unique, not_null]
+      - name: country
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['US', 'CA']
+
+  - name: dim_users
+    description: One row per loyalty user with activity summary and Active / Lapsed status.
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: user_status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Active', 'Lapsed']
+
+  - name: dim_redeemables
+    description: One row per offer, with PLU and a flag for tracked promotions.
+    columns:
+      - name: redeemable_id
+        tests: [unique, not_null]
+
+  - name: fct_checkins
+    description: One row per loyalty-app check with store number and redemption counts.
+    columns:
+      - name: check_key
+        tests: [unique, not_null]
+      - name: user_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_id
+      - name: store_number
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_stores')
+                field: store_number
+      - name: checkin_date
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_day
+
+  - name: fct_redemptions
+    description: One row per offer redemption (all offers), with store number.
+    columns:
+      - name: redemption_id
+        tests: [unique, not_null]
+      - name: check_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('fct_checkins')
+                field: check_key
+      - name: redeemable_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_redeemables')
+                field: redeemable_id

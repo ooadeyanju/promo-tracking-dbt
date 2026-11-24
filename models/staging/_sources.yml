@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: loyalty
+    description: Loyalty platform tables (all offers, loyalty and gift check-ins)
+    schema: loyalty
+    tables:
+      - name: user_profile
+      - name: locations
+      - name: stores
+      - name: check_in
+      - name: redeemables
+      - name: offer_redemption
+
+  - name: pos
+    description: Digital sales from POS (loyalty + non-loyalty checks) with net sales and gross margin
+    schema: pos
+    tables:
+      - name: digital_checks
+      - name: digital_check_redeemables

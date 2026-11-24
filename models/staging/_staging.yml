@@ -1,0 +1,116 @@
+version: 2
+
+models:
+  - name: stg_promotion_projections
+    description: Cleaned PromotionProjections spreadsheet, one row per promotion run.
+    columns:
+      - name: promo_id
+        description: Unique ID for each promotion run (never reused).
+        tests: [unique, not_null]
+      - name: country
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['US', 'CA']
+
+  - name: stg_redeemables
+    description: One row per redeemable, with the PLU parsed from the last brackets of the name.
+    columns:
+      - name: redeemable_id
+        tests: [unique, not_null]
+      - name: plu_id
+        description: PLU parsed from the redeemable name. Must never be null.
+        tests: [not_null]
+
+  - name: stg_users
+    columns:
+      - name: user_id
+        tests: [unique, not_null]
+      - name: home_store_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_stores')
+                field: store_id
+
+  - name: stg_stores
+    description: Store_id mapped to store_number, with country and region.
+    columns:
+      - name: store_id
+        tests: [unique, not_null]
+      - name: store_number
+        tests: [unique, not_null]
+      - name: country
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['US', 'CA']
+
+  - name: stg_check_ins
+    description: One row per loyalty-app check (loyalty or gift).
+    columns:
+      - name: check_key
+        tests: [unique, not_null]
+      - name: status
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['loyalty', 'gift']
+      - name: user_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_users')
+                field: user_id
+      - name: store_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_stores')
+                field: store_id
+
+  - name: stg_redemptions
+    description: One row per offer redemption, all offers.
+    columns:
+      - name: redemption_id
+        tests: [unique, not_null]
+      - name: check_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_check_ins')
+                field: check_key
+      - name: redeemable_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_redeemables')
+                field: redeemable_id
+
+  - name: stg_digital_checks
+    description: One row per digital check with POS net sales and gross margin.
+    columns:
+      - name: check_key
+        tests: [unique, not_null]
+      - name: store_number
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_stores')
+                field: store_number
+
+  - name: stg_digital_check_redeemables
+    columns:
+      - name: check_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_digital_checks')
+                field: check_key
+      - name: redeemable_id
+        tests:
+          - relationships:
+              arguments:
+                to: ref('stg_redeemables')
+                field: redeemable_id
